@@ -1,3 +1,4 @@
+/*
 #ifndef NONDIRECTEDGRAPH_H
 #define NONDIRECTEDGRAPH_H
 
@@ -159,3 +160,4 @@ public:
 };
 
 #endif
+*/
