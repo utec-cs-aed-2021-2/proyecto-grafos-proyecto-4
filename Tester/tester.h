@@ -8,6 +8,10 @@
 #include <string>
 #include "Graph/DirectedGraph.h"
 #include "Graph/UndirectedGraph.h"
+#include "Graph/Algorithms/bfs.h"
+#include "Graph/Algorithms/dfs.h"
+#include "Graph/Algorithms/prim.h"
+#include "Graph/Algorithms/kruskal.h"
 
 namespace Tester{
     void executeExamples();
@@ -29,7 +33,7 @@ namespace Tester{
     template <template <typename, typename > class G>
     void graphSimulation() {
         // Constructor
-        Graph<std::string, float>* graph = new G<std::string, float>{};
+        auto graph = new G<std::string, float>{};
         // Stats & display
         graph->display();
         displayStats(graph);
@@ -74,8 +78,43 @@ namespace Tester{
         // Stats & display
         graph->display();
         displayStats(graph);
+
+
+        // Algorithm examples
+        graph->insertVertex("1", "A");
+        graph->insertVertex("2", "B");
+        graph->insertVertex("3", "C");
+        graph->insertVertex("4", "D");
+        graph->insertVertex("5", "E");
+        graph->insertVertex("6", "F");
+        graph->insertVertex("7", "G");
+
+        graph->createEdge("1", "2", 0.5);
+        graph->createEdge("1", "3", 0.5);
+        graph->createEdge("3", "4", 0.5);
+        graph->createEdge("2", "5", 0.5);
+        graph->createEdge("5", "6", 0.5);
+        graph->createEdge("4", "6", 0.5);
+        graph->createEdge("6", "7", 0.5);
+        // Stats & display
+        graph->display();
+        displayStats(graph);
+        // BFS
+        cout << "BFS:" << endl;
+        auto ans_bfs = bfs(graph, "1");
+        for (auto &vertix : ans_bfs) {
+            cout << vertix->data << endl;
+        }
+        // DFS
+        cout << "DFS:" << endl;
+        auto ans_dfs = dfs(graph, "1");
+        for (auto &vertix : ans_dfs) {
+            cout << vertix->data << endl;
+        }
+
         // Destructor
         delete graph;
+
     }
 }
 

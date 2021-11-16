@@ -177,7 +177,7 @@ public:
 
     bool findById(string id){
         // COMPLETED
-        return this->vertexes.find(id) == this->vertexes.end();
+        return this->vertexes.find(id) != this->vertexes.end();
     }
 
     void display(){

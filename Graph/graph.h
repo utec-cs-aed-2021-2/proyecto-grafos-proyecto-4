@@ -2,7 +2,6 @@
 #define GRAPH_H
 
 #include <list>
-#include <stack>
 #include <vector>
 #include <unordered_map>
 #include <iostream>
@@ -23,6 +22,10 @@ template<typename TV, typename TE>
 struct Edge {
 	Vertex<TV, TE>* vertexes[2];
 	TE weight;
+
+    bool operator>(Edge other) {
+        if (this->weight > other.edge) { return true; } else { false; }
+    }
 };
 
 template<typename TV, typename TE>
@@ -59,6 +62,16 @@ public:
 	Vertex<TV, TE>* getVertex(string id){
 		return this->vertexes[id];
 	}
+
+    std::vector<Edge<TV, TE>*, bool> getAllEdges(){
+        std::vector<Edge<TV, TE>*, bool> edges;
+        for (auto &vertex : this->vertexes) {
+            for (auto &edge : vertex.second->edges) {
+                edges.push_back(edge) = false;
+            }
+        }
+        return edges;
+    }
 };
 
 #endif
