@@ -5,8 +5,8 @@
 
 ## Integrantes
 - Rodrigo Gabriel Salazar Alva (202010387)
-- 
-- 
+- Ian Augusto Cortez Gorbalan (202010556)
+- Paolo Armas Vega (202010195)
 
 ----
 ## Pendientes
