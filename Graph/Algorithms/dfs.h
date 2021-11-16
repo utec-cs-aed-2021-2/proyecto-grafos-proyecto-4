@@ -50,7 +50,7 @@ vector<Vertex<TV,TE>*> dfs(DirectedGraph<TV,TE>* grafo, string id_partida){
 }
 
 template <typename TV, typename TE>
-vector<Vertex<TV,TE>*> dfs(Graph<TV,TE>* grafo, string id_partida){
+vector<Vertex<TV,TE>*> dfs(UnDirectedGraph<TV,TE>* grafo, string id_partida){
     if(!grafo->findById(id_partida)) throw("Alguno de los nodos no existe");
 
 

@@ -1,7 +1,9 @@
 #ifndef UNDIRECTEDGRAPH_H
 #define UNDIRECTEDGRAPH_H
 
+#include <stack>
 #include "graph.h"
+
 
 template<typename TV, typename TE>
 class UnDirectedGraph : public Graph<TV, TE>{
@@ -125,13 +127,55 @@ public:
     }
 
     bool isConnected(){
-        // TODO
-        return false;
+        // COMPLETED
+        if (this->n_vertex == 0) {return true;}
+        // Deep First Search
+        // Auxiliar lambda
+        auto buscar_elemento = [](vector<Vertex<TV, TE>*> vect, Vertex<TV, TE>* vertex){
+            bool is_visited = false;
+            for(auto it=vect.begin(); it!=vect.end(); ++it){
+                if(*it == vertex){
+                    is_visited = true;
+                    break;
+                }
+            }
+            return is_visited;
+        };
+        // Inicializacion de contenedores
+        stack<Vertex<TV, TE>*> stk;
+        vector<Vertex<TV, TE>*> visited;
+        vector<Vertex<TV, TE>*> sol;
+
+        // Loop de exploracion
+        stk.push(this->vertexes.begin()->second);
+        while(!stk.empty()){
+            auto temp = stk.top();
+            stk.pop();
+
+            if(!buscar_elemento(visited, temp)){
+                sol.push_back(temp);
+                visited.push_back(temp);
+            }
+
+            for(auto &edge: temp->edges){
+                if(edge->vertexes[0] == temp) {
+                    if(!buscar_elemento(visited, edge->vertexes[1])){
+                        stk.push(edge->vertexes[1]);
+                    }
+                }
+                else {
+                    if(!buscar_elemento(visited, edge->vertexes[0])){
+                        stk.push(edge->vertexes[0]);
+                    }
+                }
+            }
+        }
+        // Comparacion de tamaño para determinar conectividad
+        return (this->vertexes.size() == visited.size());
     }
 
     bool isStronglyConnected(){
-        // TODO
-        return false;
+        return isConnected();
     }
 
     bool empty(){

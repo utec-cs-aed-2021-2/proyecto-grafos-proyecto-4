@@ -43,7 +43,9 @@ namespace Tester{
         graph->insertVertex("C", "Cuzco");
         graph->insertVertex("D", "Ica");
         graph->insertVertex("E", "Junin");
+        // Stats & display
         graph->display();
+        displayStats(graph);
         // Create Edge
         graph->createEdge("A", "C", 7.5);
         graph->createEdge("A", "B", 0.2);

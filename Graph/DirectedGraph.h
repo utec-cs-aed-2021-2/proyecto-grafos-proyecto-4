@@ -1,6 +1,7 @@
 #ifndef NONDIRECTEDGRAPH_H
 #define NONDIRECTEDGRAPH_H
 
+#include <stack>
 #include "graph.h"
 
 template<typename TV, typename TE>
@@ -133,13 +134,101 @@ public:
     }
 
     bool isConnected(){
-        // TODO
-        return false;
+        // COMPLETE
+        // Note: Se esta entendiendo connected en directed graph como
+        // weakly connected ("si se remplazaran todos las aristas dirigidas
+        // por no dirigidas se obtendria un grafo conexo")
+        if (this->n_vertex == 0) {return true;}
+        // Deep First Search
+        // Auxiliar lambda
+        auto buscar_elemento = [](vector<Vertex<TV, TE>*> vect, Vertex<TV, TE>* vertex){
+            bool is_visited = false;
+            for(auto it=vect.begin(); it!=vect.end(); ++it){
+                if(*it == vertex){
+                    is_visited = true;
+                    break;
+                }
+            }
+            return is_visited;
+        };
+        // Inicializacion de contenedores
+        stack<Vertex<TV, TE>*> stk;
+        vector<Vertex<TV, TE>*> visited;
+        vector<Vertex<TV, TE>*> sol;
+
+        // Loop de exploracion
+        stk.push(this->vertexes.begin()->second);
+        while(!stk.empty()){
+            auto temp = stk.top();
+            stk.pop();
+
+            if(!buscar_elemento(visited, temp)){
+                sol.push_back(temp);
+                visited.push_back(temp);
+            }
+
+            for(auto &edge: temp->edges){
+                if(edge->vertexes[0] == temp) {
+                    if(!buscar_elemento(visited, edge->vertexes[1])){
+                        stk.push(edge->vertexes[1]);
+                    }
+                }
+                else {
+                    if(!buscar_elemento(visited, edge->vertexes[0])){
+                        stk.push(edge->vertexes[0]);
+                    }
+                }
+            }
+        }
+        // Comparacion de tamaño para determinar conectividad
+        return (this->vertexes.size() == visited.size());
     }
 
     bool isStronglyConnected(){
-        // TODO
-        return false;
+        // COMPLETE
+        if (this->n_vertex == 0) {return true;}
+        // Deep First Search
+        // Auxiliar lambda
+        auto buscar_elemento = [](vector<Vertex<TV, TE>*> vect, Vertex<TV, TE>* vertex){
+            bool is_visited = false;
+            for(auto it=vect.begin(); it!=vect.end(); ++it){
+                if(*it == vertex){
+                    is_visited = true;
+                    break;
+                }
+            }
+            return is_visited;
+        };
+        for (auto it = this->vertexes.begin(); it != this->vertexes.end() ; ++it) {
+            // Loop de exploracion
+            stack<Vertex<TV, TE>*> stk;
+            vector<Vertex<TV, TE>*> visited;
+            vector<Vertex<TV, TE>*> sol;
+
+            stk.push(it->second);
+
+            while(!stk.empty()){
+                auto temp = stk.top();
+                stk.pop();
+
+                if(!buscar_elemento(visited, temp)){
+                    sol.push_back(temp);
+                    visited.push_back(temp);
+                }
+
+                for(auto &edge: temp->edges){
+                    if(edge->vertexes[0] == temp) {
+                        if(!buscar_elemento(visited, edge->vertexes[1])){
+                            stk.push(edge->vertexes[1]);
+                        }
+                    }
+                }
+            }
+            // Comparacion de tamaño para determinar conectividad
+            if (this->vertexes.size() != visited.size()) {return false;}
+        }
+        // Cumple en todos los casos
+        return true;
     }
 
     bool empty(){
@@ -187,7 +276,7 @@ public:
             cout<<vertex.second->data <<"\t| ";
             for(auto &edge : vertex.second->edges){
                 if (edge->vertexes[0] == vertex.second) {
-                    cout<<"("<<edge->vertexes[1]->data<<","<<edge->weight<<")"<<"\t";
+                    cout<<"("<<edge->vertexes[1]->data<<","<<edge->weight<<")"<<" \t";
                 }
             }
             cout<<endl;
