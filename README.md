@@ -4,10 +4,13 @@
 --------
 
 ## Integrantes
-- 
+- Rodrigo Gabriel Salazar Alva (202010387)
 - 
 - 
 
+----
+## Pendientes
+- Implementacion de kruskal y prim
 ----
 
 El proyecto del curso consiste en implementar una estructura de datos de grafo y un file parser. La estructura debe soportar los métodos y algoritmos descritos a continuacion:  
