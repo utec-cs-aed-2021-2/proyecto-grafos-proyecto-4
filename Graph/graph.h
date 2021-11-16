@@ -24,7 +24,7 @@ struct Edge {
 	TE weight;
 
     bool operator>(Edge other) {
-        if (this->weight > other.edge) { return true; } else { false; }
+        return (this->weight > other.weight);
     }
 };
 
@@ -63,14 +63,25 @@ public:
 		return this->vertexes[id];
 	}
 
-    std::vector<Edge<TV, TE>*, bool> getAllEdges(){
-        std::vector<Edge<TV, TE>*, bool> edges;
+    std::vector<Vertex<TV, TE>*> getAllVertex(){
+        std::vector<Vertex<TV, TE>*> vec;
+        for (auto &it : this->vertexes) {
+            vec.push_back(it.second->data);
+        }
+    }
+
+    std::vector<Edge<TV, TE>*> getAllEdges(){
+        std::vector<Edge<TV, TE>*> edges;
         for (auto &vertex : this->vertexes) {
             for (auto &edge : vertex.second->edges) {
-                edges.push_back(edge) = false;
+                edges.push_back(edge);
             }
         }
         return edges;
+    }
+
+    int getNumberEdges(){
+        return n_edges;
     }
 };
 

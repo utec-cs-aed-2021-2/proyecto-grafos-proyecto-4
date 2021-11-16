@@ -92,12 +92,12 @@ namespace Tester{
         graph->insertVertex("7", "G");
 
         graph->createEdge("1", "2", 0.5);
-        graph->createEdge("1", "3", 0.5);
-        graph->createEdge("3", "4", 0.5);
-        graph->createEdge("2", "5", 0.5);
-        graph->createEdge("5", "6", 0.5);
-        graph->createEdge("4", "6", 0.5);
-        graph->createEdge("6", "7", 0.5);
+        graph->createEdge("1", "3", 1.5);
+        graph->createEdge("3", "4", 3.5);
+        graph->createEdge("2", "5", 2.0);
+        graph->createEdge("5", "6", 1.0);
+        graph->createEdge("4", "6", 5.0);
+        graph->createEdge("6", "7", 6.0);
         // Stats & display
         graph->display();
         displayStats(graph);
@@ -113,6 +113,26 @@ namespace Tester{
         for (auto &vertix : ans_dfs) {
             cout << vertix->data << endl;
         }
+
+
+        //
+        graph->clear();
+        // Algorithm examples
+        graph->insertVertex("1", "A");
+        graph->insertVertex("2", "B");
+        graph->insertVertex("3", "C");
+        graph->insertVertex("4", "D");
+
+        graph->createEdge("1", "2", 5);
+        graph->createEdge("1", "3", 10);
+        graph->createEdge("1", "4", 3);
+        graph->createEdge("2", "4", 20);
+        graph->createEdge("4", "3", 2);
+        graph->display();
+        // Kruskal
+        cout << "Kruskal" << endl;
+        auto met_k = kruskal(graph);
+        met_k->display();
 
         // Destructor
         delete graph;
