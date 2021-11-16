@@ -2,6 +2,7 @@
 #define GRAPH_H
 
 #include <list>
+#include <stack>
 #include <vector>
 #include <unordered_map>
 #include <iostream>
@@ -20,23 +21,23 @@ class Graph;
 
 template<typename TV, typename TE>
 struct Edge {
-    Vertex<TV, TE>* vertexes[2];
-    TE weight;
+	Vertex<TV, TE>* vertexes[2];
+	TE weight;
 };
 
 template<typename TV, typename TE>
 struct Vertex {
-    TV data;
-    std::list<Edge<TV, TE>*> edges;
+	TV data;
+	std::list<Edge<TV, TE>*> edges;
 };
 
 template<typename TV, typename TE>
 class Graph{
 protected:
-    int n_edges=0;
-    int n_vertex=0;
-    std::unordered_map<string, Vertex<TV, TE>*>  vertexes;
-
+	int n_edges=0;
+	int n_vertex=0;  
+	std::unordered_map<string, Vertex<TV, TE>*>  vertexes;
+    
 public:
     virtual ~Graph() {};
     virtual bool insertVertex(string id, TV vertex) = 0;
@@ -54,6 +55,10 @@ public:
     virtual void displayVertex(string id)= 0;
     virtual bool findById(string id) = 0;
     virtual void display() = 0;
+
+	Vertex<TV, TE>* getVertex(string id){
+		return this->vertexes[id];
+	}
 };
 
 #endif
