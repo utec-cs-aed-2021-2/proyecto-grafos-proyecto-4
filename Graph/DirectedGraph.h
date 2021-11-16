@@ -15,93 +15,117 @@ public:
     };
 
     bool insertVertex(string id, TV vertex){
-        Vertex<TV,TE>* temp = new Vertex<TV,TE>;
-        temp->data = vertex;
-        temp->edges = list<Edge<TV, TE>*>{};
-
+        // COMPLETED
+        // Duplicate Case: Returns False
         if(this->vertexes.find(id) != this->vertexes.end()){
             return false;
         }
-        else{
-            this->vertexes.emplace(id,temp);
-            this->n_vertex++;
-            return true;
-        }
+        // Standard Case: Insertion
+        auto temp = new Vertex<TV,TE>;
+        temp->data = vertex;
+        temp->edges = list<Edge<TV, TE>*>{};
+        this->vertexes.emplace(id,temp);
+        this->n_vertex++;
+        return true;
     }
 
     bool createEdge(string id1, string id2, TE w){
-        if(this->vertexes.find(id1)!= this->vertexes.end() && this->vertexes.find(id2)!= this->vertexes.end()){
-            Edge<TV, TE>* arista = new Edge<TV, TE>;
-            arista->vertexes[0] = this->vertexes[id1];
-            arista->vertexes[1] = this->vertexes[id2];
-            arista->weight = w;
-            this->n_edges++;
-            this->vertexes[id1]->edges.push_back(arista);
-            return true;
-        }
-        else{
+        // COMPLETED
+        // Vertex do not exist Case: Returns False
+        if(this->vertexes.find(id1) == this->vertexes.end()) {
             return false;
         }
+        if(this->vertexes.find(id2) == this->vertexes.end()) {
+            return false;
+        }
+        // Standard Case: Insertion
+        auto arista = new Edge<TV, TE>;
+        arista->vertexes[0] = this->vertexes[id1]; // vertex0 = OUT VERTEX (origin)
+        arista->vertexes[1] = this->vertexes[id2]; // vertex1 = IN VERTEX (destiny)
+        arista->weight = w;
+        this->n_edges++;
+        this->vertexes[id1]->edges.push_back(arista);
+        this->vertexes[id2]->edges.push_back(arista);
+        // Se inserta puntero a la arista tambient en el vertice de destinopara una
+        // complejidad reducida en las operaciones de borrado de vertices en el caso promedio
+        // a cambio de un leve incremento en memoria (tradeoff memoria-tiempo)
+        // Se considera que este es un tradeoff favorable considerando que se esta trabajando
+        // sobre una matriz de dimensiones dinamica, con lo que la eliminacion de nodos
+        // sera una operacion frecuente
+        return true;
     }
 
     bool deleteVertex(string id){
+        // COMPLETED
+        // Vertex does not exist Case: Returns False
         if(this->vertexes.find(id) == this->vertexes.end()) return false;
-
-        for(auto& vertex: this->vertexes){
-            for(auto& edge: vertex.second->edges){
-                if(edge->vertexes[0] == this->vertexes[id] || edge->vertexes[1] == this->vertexes[id]){
-                    vertex.second->edges.remove(edge);
-                    edge = nullptr;
-                    delete edge;
-                    this->n_vertex--;
-                    break;
-                }
-            }
+        // Standard Case: Deletion
+        while (!this->vertexes[id]->edges.empty()){
+            auto arista = this->vertexes[id]->edges.front();
+            auto other = (arista->vertexes[0] == this->vertexes[id] ) ? arista->vertexes[1] : arista->vertexes[0];
+            other->edges.remove(arista);
+            delete arista;
+            this->vertexes[id]->edges.pop_front();
+            this->n_edges--;
         }
-
-        this->vertexes[id]->edges.clear();
         delete this->vertexes[id];
         this->vertexes.erase(id);
-
+        this->n_vertex--;
         return true;
     }
 
     bool deleteEdge(string start, string end){
-        if(this->vertexes.find(start) == this->vertexes.end() && this->vertexes.find(end) == this->vertexes.end()) return false;
+        // COMPLETED
+        // Vertex do not exist Case: Returns False
+        if(this->vertexes.find(start) == this->vertexes.end()){
+            return false;
+        }
+        auto end_vertix = this->vertexes.find(end);
+        if (end_vertix == this->vertexes.end()){
+            return false;
+        }
 
-        for(auto& vertex: this->vertexes){
-            for(auto& edge: vertex.second->edges){
-                if((edge->vertexes[0] == this->vertexes[start] && edge->vertexes[1] == this->vertexes[end]) || (edge->vertexes[1] == this->vertexes[start] && edge->vertexes[0] == this->vertexes[end]) ){
-                    this->vertexes[start]->edges.remove(edge);
-                    this->vertexes[end]->edges.remove(edge);
-                    delete edge;
-                    this->n_edges--;
-                    break;
-                }
+        // Standard Case: Deletion
+        for (auto& arista : this->vertexes[start]->edges){
+            if (arista->vertexes[1] == end_vertix->second){ // Destino debe ser igual a end
+                this->vertexes[end]->edges.remove(arista);
+                this->vertexes[start]->edges.remove(arista);
+                delete arista;
+                this->n_edges--;
+                return true;
             }
         }
-        return true;
+        // Edge not found Case
+        return false;
     }
 
     TE &operator()(string start, string end){
-        TE val;
-
-        for(auto& vertex: this->vertexes){
-            for(auto& edge: vertex.second->edges){
-                if(edge->vertexes[0] == this->vertexes[start] && edge->vertexes[1] == this->vertexes[end]){
-                    val = edge->weight;
-                }
+        // COMPLETED
+        // Vertex do not exist Case: Returns False
+        if(this->vertexes.find(start) == this->vertexes.end()){
+            throw "Vertix not found in the graph";
+        }
+        auto end_vertix = this->vertexes.find(end);
+        if (end_vertix == this->vertexes.end()){
+            throw "Vertix not found in the graph";
+        }
+        // Standard Case: Search and return
+        for (auto& arista : this->vertexes[start]->edges){
+            if (arista->vertexes[1] == end_vertix->second){ // Destino debe ser igual a end
+                return arista->weight;
             }
         }
-
-        return val;
+        // Not found case:
+        throw "Trying to access an edge that does not exist";
     }
 
     float density(){
+        // Destino debe ser igual a end
         return ((float) this->n_edges)/(this->n_vertex*(this->n_vertex-1));
     }
 
     bool isDense(float threshold = 0.5){
+        // Destino debe ser igual a end
         if(density()>=threshold){
             return true;
         }
@@ -119,6 +143,7 @@ public:
     }
 
     bool empty(){
+        // Destino debe ser igual a end
         if(this->n_edges == 0){
             return true;
         }
@@ -126,33 +151,44 @@ public:
     }
 
     void clear(){
-        for(auto& vertex1: this->vertexes){
-            for(auto& vertex2: this->vertexes){
-                if(vertex1.first != vertex2.first) deleteEdge(vertex1.first, vertex2.first);
-            }
-        }
-
+        // COMPLETED
+        // Liberacion de memoria
         for(auto& vertex: this->vertexes){
-            deleteVertex(vertex.first);
+            while (! vertex.second->edges.empty() ){
+                auto arista = vertex.second->edges.front();
+                auto other = (arista->vertexes[0] == vertex.second ) ? arista->vertexes[1] : arista->vertexes[0];
+                other->edges.remove(arista);
+                delete arista;
+                vertex.second->edges.pop_front();
+            }
+            delete vertex.second;
         }
+        // Reset a valores vacios
+        this->n_edges = 0;
+        this->n_vertex = 0;
+        this->vertexes.clear();
     }
 
     void displayVertex(string id){
+        // COMPLETED
         if(this->vertexes.find(id) == this->vertexes.end()) throw("No existe vertice");
-
         std::cout << this->vertexes[id]->data << std::endl;
     }
 
     bool findById(string id){
+        // COMPLETED
         return this->vertexes.find(id) == this->vertexes.end();
     }
 
     void display(){
+        // COMPLETED
         cout << "------Listas de adyasencia------" << endl;
         for(auto &vertex : this->vertexes){
             cout<<vertex.second->data <<"\t| ";
             for(auto &edge : vertex.second->edges){
-                cout<<"("<<edge->vertexes[1]->data<<","<<edge->weight<<")"<<"\t";
+                if (edge->vertexes[0] == vertex.second) {
+                    cout<<"("<<edge->vertexes[1]->data<<","<<edge->weight<<")"<<"\t";
+                }
             }
             cout<<endl;
         }

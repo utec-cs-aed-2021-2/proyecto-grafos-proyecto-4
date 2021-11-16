@@ -38,6 +38,7 @@ protected:
     std::unordered_map<string, Vertex<TV, TE>*>  vertexes;
 
 public:
+    virtual ~Graph() {};
     virtual bool insertVertex(string id, TV vertex) = 0;
     virtual bool createEdge(string id1, string id2, TE w) = 0;
     virtual bool deleteVertex(string id) = 0;
