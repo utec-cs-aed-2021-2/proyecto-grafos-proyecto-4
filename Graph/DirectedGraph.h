@@ -98,7 +98,7 @@ public:
     }
 
     float density(){
-        return this->n_edges/(this->n_vertex*(this->n_vertex-1));
+        return ((float) this->n_edges)/(this->n_vertex*(this->n_vertex-1));
     }
 
     bool isDense(float threshold = 0.5){
@@ -109,10 +109,12 @@ public:
     }
 
     bool isConnected(){
+        // TODO
         return false;
     }
 
     bool isStronglyConnected(){
+        // TODO
         return false;
     }
 
