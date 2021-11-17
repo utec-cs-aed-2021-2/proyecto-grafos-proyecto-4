@@ -131,8 +131,14 @@ namespace Tester{
         graph->display();
         // Kruskal
         cout << "Kruskal" << endl;
-        auto met_k = kruskal(graph);
-        met_k->display();
+        auto mst_k = kruskal(graph);
+        mst_k->display();
+        delete mst_k;
+        // Prim
+        cout << "Prim" << endl;
+        auto mst_p = prim(graph, "2");
+        mst_p->display();
+        delete mst_p;
 
         // Destructor
         delete graph;

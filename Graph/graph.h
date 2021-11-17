@@ -66,8 +66,9 @@ public:
     std::vector<Vertex<TV, TE>*> getAllVertex(){
         std::vector<Vertex<TV, TE>*> vec;
         for (auto &it : this->vertexes) {
-            vec.push_back(it.second->data);
+            vec.push_back(it.second);
         }
+        return vec;
     }
 
     std::vector<Edge<TV, TE>*> getAllEdges(){
@@ -82,6 +83,10 @@ public:
 
     int getNumberEdges(){
         return n_edges;
+    }
+
+    int getNumberVertexes(){
+        return n_vertex;
     }
 };
 

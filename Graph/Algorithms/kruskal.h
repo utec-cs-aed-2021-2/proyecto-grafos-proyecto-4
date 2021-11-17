@@ -43,7 +43,7 @@ Graph<TV, TE>* kruskal(Graph<TV,TE>* grafo){
     // Loop
     for (int i = 0; i < edges.size(); ++i) {
         // Break condition
-        if (solution->getNumberEdges() >= edges.size()-1) {
+        if (solution->getNumberEdges() >= grafo->getNumberVertexes()-1) {
             break;
         }
         // Pop from queue
