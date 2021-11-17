@@ -9,9 +9,6 @@
 - Paolo Armas Vega (202010195)
 
 ----
-## Pendientes
-- Implementacion de prim
-----
 
 El proyecto del curso consiste en implementar una estructura de datos de grafo y un file parser. La estructura debe soportar los métodos y algoritmos descritos a continuacion:  
 

@@ -17,7 +17,5 @@ add_executable(proyecto_grafos_proyecto_4
         Graph/DirectedGraph.h
         Graph/graph.h
         Graph/UndirectedGraph.h
-        DirectedGraph.h
-        graph.h
         main.cpp
-        UndirectedGraph.h Tester/tester.cpp Tester/tester.h)
+        Tester/tester.cpp Tester/tester.h)

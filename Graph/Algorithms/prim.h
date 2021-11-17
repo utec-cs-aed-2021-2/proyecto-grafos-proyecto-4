@@ -51,7 +51,12 @@ bool operator>(const VertexDistance<TV, TE> &v1, const VertexDistance<TV, TE> &v
 }
 
 template <typename TV, typename TE>
-Graph<TV, TE>* prim(Graph<TV,TE>* grafo, string id){
+Graph<TV, TE>* prim(DirectedGraph<TV,TE>* grafo, string id){
+    throw("Prim does not work with directed graphs");
+}
+
+template <typename TV, typename TE>
+Graph<TV, TE>* prim(UnDirectedGraph<TV,TE>* grafo, string id){
     // Solution
     auto solution = new UnDirectedGraph<TV, TE>{};
     // Priority queue

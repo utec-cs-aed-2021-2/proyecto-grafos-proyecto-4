@@ -31,7 +31,12 @@ void unionSet(std::unordered_map<V, V> &set, V v1, V v2) {
 }
 
 template <typename TV, typename TE>
-Graph<TV, TE>* kruskal(Graph<TV,TE>* grafo){
+Graph<TV, TE>* kruskal(DirectedGraph<TV,TE>* grafo){
+    throw("Kruksal does not work with directed graphs");
+}
+
+template <typename TV, typename TE>
+Graph<TV, TE>* kruskal(UnDirectedGraph<TV,TE>* grafo){
     // Solution
     auto solution = new UnDirectedGraph<TV, TE>{};
     // Heap

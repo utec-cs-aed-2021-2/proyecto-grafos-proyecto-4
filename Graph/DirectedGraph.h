@@ -136,8 +136,8 @@ public:
     bool isConnected(){
         // COMPLETE
         // Note: Se esta entendiendo connected en directed graph como
-        // weakly connected ("si se remplazaran todos las aristas dirigidas
-        // por no dirigidas se obtendria un grafo conexo")
+        // weakly connected (Un grafo es weakly connected cuando "si se remplazaran
+        // todos las aristas dirigidas por no dirigidas se obtendria un grafo conexo")
         if (this->n_vertex == 0) {return true;}
         // Deep First Search
         // Auxiliar lambda

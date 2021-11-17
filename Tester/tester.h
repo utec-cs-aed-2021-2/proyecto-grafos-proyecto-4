@@ -30,10 +30,18 @@ namespace Tester{
         std::cout << "Is Strongly Connected?:"; if (graph->isStronglyConnected()){std::cout <<"True";} else {std::cout <<"False";} ;std::cout << std::endl;
     }
 
+    void MSTAlgoDemo();
+
     template <template <typename, typename > class G>
     void graphSimulation() {
         // Constructor
         auto graph = new G<std::string, float>{};
+
+
+        // =============================
+        // GENERAL METHODS TEST
+        // =============================
+
         // Stats & display
         graph->display();
         displayStats(graph);
@@ -81,6 +89,9 @@ namespace Tester{
         graph->display();
         displayStats(graph);
 
+        // =============================
+        // SEARCH ALGORITHMS TEST
+        // =============================
 
         // Algorithm examples
         graph->insertVertex("1", "A");
@@ -114,32 +125,6 @@ namespace Tester{
             cout << vertix->data << endl;
         }
 
-
-        //
-        graph->clear();
-        // Algorithm examples
-        graph->insertVertex("1", "A");
-        graph->insertVertex("2", "B");
-        graph->insertVertex("3", "C");
-        graph->insertVertex("4", "D");
-
-        graph->createEdge("1", "2", 5);
-        graph->createEdge("1", "3", 10);
-        graph->createEdge("1", "4", 3);
-        graph->createEdge("2", "4", 20);
-        graph->createEdge("4", "3", 2);
-        graph->display();
-        // Kruskal
-        cout << "Kruskal" << endl;
-        auto mst_k = kruskal(graph);
-        mst_k->display();
-        delete mst_k;
-        // Prim
-        cout << "Prim" << endl;
-        auto mst_p = prim(graph, "2");
-        mst_p->display();
-        delete mst_p;
-
         // Destructor
         delete graph;
 
@@ -147,3 +132,4 @@ namespace Tester{
 }
 
 #endif //PROYECTO_GRAFOS_PROYECTO_4_TESTER_H
+
