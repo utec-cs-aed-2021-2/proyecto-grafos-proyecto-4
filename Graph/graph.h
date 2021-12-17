@@ -112,6 +112,15 @@ public:
     int getNumberVertexes(){
         return n_vertex;
     }
+
+    std::unordered_map<Vertex<TV, TE>*, string> getAllIds(){
+        std::unordered_map<Vertex<TV, TE>*, string> id_map;
+        for (auto &it : this->vertexes) {
+            id_map[it.second] = it.first;
+        }
+        return id_map;
+    }
+
 };
 
 #endif

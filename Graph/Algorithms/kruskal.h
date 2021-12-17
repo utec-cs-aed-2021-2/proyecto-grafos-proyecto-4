@@ -37,6 +37,8 @@ Graph<TV, TE>* kruskal(DirectedGraph<TV,TE>* grafo){
 
 template <typename TV, typename TE>
 Graph<TV, TE>* kruskal(UnDirectedGraph<TV,TE>* grafo){
+    // Map
+    auto id_map = grafo->getAllIds();
     // Solution
     auto solution = new UnDirectedGraph<TV, TE>{};
     // Heap
@@ -57,9 +59,9 @@ Graph<TV, TE>* kruskal(UnDirectedGraph<TV,TE>* grafo){
         // Check set
         if ((getSetParent(set, arista->vertexes[0])) != getSetParent(set, arista->vertexes[1])){
             // Add edge
-            solution->insertVertex(arista->vertexes[0]->data, arista->vertexes[0]->data);
-            solution->insertVertex(arista->vertexes[1]->data, arista->vertexes[1]->data);
-            solution->createEdge(arista->vertexes[0]->data, arista->vertexes[1]->data, arista->weight);
+            solution->insertVertex( id_map[arista->vertexes[0]], id_map[arista->vertexes[0]]);
+            solution->insertVertex( id_map[arista->vertexes[1]], id_map[arista->vertexes[1]]);
+            solution->createEdge( id_map[arista->vertexes[0]], id_map[arista->vertexes[1]], arista->weight);
             // Merge sets
             unionSet(set, arista->vertexes[0], arista->vertexes[1]);
         }

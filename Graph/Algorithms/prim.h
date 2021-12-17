@@ -57,6 +57,8 @@ Graph<TV, TE>* prim(DirectedGraph<TV,TE>* grafo, string id){
 
 template <typename TV, typename TE>
 Graph<TV, TE>* prim(UnDirectedGraph<TV,TE>* grafo, string id){
+    // Map
+    auto id_map = grafo->getAllIds();
     // Solution
     auto solution = new UnDirectedGraph<TV, TE>{};
     // Priority queue
@@ -71,7 +73,7 @@ Graph<TV, TE>* prim(UnDirectedGraph<TV,TE>* grafo, string id){
             pq.push_back(VertexDistance<TV, TE>(v));
         }
         // Add vertexes to graph
-        solution->insertVertex(v->data, v->data);
+        solution->insertVertex(id_map[v], v->data);
     }
     std::make_heap(pq.begin(), pq.end(), greater<VertexDistance<TV, TE>>{});
     // Loop
@@ -102,7 +104,7 @@ Graph<TV, TE>* prim(UnDirectedGraph<TV,TE>* grafo, string id){
     for (auto &e : pq) {
         if (e.parent != nullptr){
             // Add new edge
-            solution->createEdge(e.vertex->data, e.parent->data, e.distance);
+            solution->createEdge(id_map[e.vertex], id_map[e.parent], e.distance);
         }
     }
     return solution;
