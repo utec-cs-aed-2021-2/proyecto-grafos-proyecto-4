@@ -9,7 +9,7 @@
 
 template<typename TV>
 auto priorizar_distancia = [](pair<TV,int> edge1,pair<TV,int> edge2){
-    return edge1.second < edge2.second;
+    return edge1.second > edge2.second;
 };
 
 template<typename TV>
@@ -75,7 +75,7 @@ string dijkstra(DirectedGraph<TV,TE>* grafo, string id_partida, string id_llegad
     for(auto it=parents.begin();it!=parents.end();it++){
         cout<<(*it).first<<" "<<(*it).second<<endl;
     }
-    cout<<"ga";
+
     solution +=id_llegada;
     solution +=" ";
     while(temp_text != id_partida){
