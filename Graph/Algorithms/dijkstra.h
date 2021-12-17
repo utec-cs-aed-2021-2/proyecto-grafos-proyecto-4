@@ -114,11 +114,22 @@ string dijkstra(UnDirectedGraph<TV,TE>* grafo, string id_partida, string id_lleg
 
         auto temp_edges = grafo->getEdges(minima);
         for(auto it=temp_edges.begin();it!=temp_edges.end();it++){
-            if(!visited[grafo->find_id((*it)->vertexes[1])]){
-                if(distance[grafo->find_id((*it)->vertexes[1])] > distance[grafo->find_id((*it)->vertexes[0])] + (*it)->weight){
-                    distance[grafo->find_id((*it)->vertexes[1])] = distance[grafo->find_id((*it)->vertexes[0])] + (*it)->weight;
-                    parents[grafo->find_id((*it)->vertexes[1])] = grafo->find_id((*it)->vertexes[0]);
-                    temp_pair = {grafo->find_id((*it)->vertexes[1]),(*it)->weight};
+            Vertex<TV,TE>* U;
+            Vertex<TV,TE>* V;
+            if((*it)->vertexes[0] == minima){
+                U = (*it)->vertexes[0];
+                V = (*it)->vertexes[1];
+            }
+            else{
+                U = (*it)->vertexes[1];
+                V = (*it)->vertexes[0];
+            }
+            
+            if(!visited[grafo->find_id(V)]){
+                if(distance[grafo->find_id(V)] > distance[grafo->find_id(U)] + (*it)->weight){
+                    distance[grafo->find_id(V)] = distance[grafo->find_id(U)] + (*it)->weight;
+                    parents[grafo->find_id(V)] = grafo->find_id(U);
+                    temp_pair = {grafo->find_id(V),(*it)->weight};
                     distances.push(temp_pair);
                 }
             }
