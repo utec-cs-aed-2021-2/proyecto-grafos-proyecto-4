@@ -63,12 +63,35 @@ public:
 		return this->vertexes[id];
 	}
 
+    TV find_id(Vertex<TV,TE>* arista){
+        for (auto &it : this->vertexes) {
+            if(it.second == arista){
+                
+                return it.first;
+            }
+        }
+        cout<<"error find id";
+        return "NO EXISTE";
+    }
+
     std::vector<Vertex<TV, TE>*> getAllVertex(){
         std::vector<Vertex<TV, TE>*> vec;
         for (auto &it : this->vertexes) {
             vec.push_back(it.second);
         }
         return vec;
+    }
+
+    std::vector<string> getAllId(){
+        std::vector<string> vec;
+        for (auto &it : this->vertexes) {
+            vec.push_back(it.first);
+        }
+        return vec;
+    }
+
+    std::list<Edge<TV, TE>*> getEdges(Vertex<TV, TE>* vertice){
+        return vertice->edges;
     }
 
     std::vector<Edge<TV, TE>*> getAllEdges(){
@@ -80,6 +103,7 @@ public:
         }
         return edges;
     }
+    
 
     int getNumberEdges(){
         return n_edges;
